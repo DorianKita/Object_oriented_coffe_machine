@@ -18,5 +18,5 @@ while is_on:
     else:
         users_choice = order.find_drink(choice)
         if machine.is_resource_sufficient(users_choice):
-            transaction_successful = cash.make_payment(users_choice.cost)
-            machine.make_coffee(users_choice)
+            if cash.make_payment(users_choice.cost):
+                machine.make_coffee(users_choice)
