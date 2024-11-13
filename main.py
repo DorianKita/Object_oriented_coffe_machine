@@ -2,20 +2,21 @@ from menu import Menu, MenuItem
 from coffee_maker import CoffeeMaker
 from money_machine import MoneyMachine
 
-espresso = MenuItem('espresso',50,0,18,1.5)
-latte = MenuItem('latte',200,150,24,2.5)
-cappuccino = MenuItem('cappuccino',250,100,24,3.0)
-
 order = Menu()
 machine = CoffeeMaker()
-
+cash = MoneyMachine()
 is_on = True
 
 while is_on:
     choice = input(f"What would you like? ({order.get_items()}): ")
-
     if choice == "off":
         is_on = False
         print("Good bye.")
     elif choice == "report":
         machine.report()
+        cash.report()
+    else:
+        users_choice = order.find_drink(choice)
+        if machine.is_resource_sufficient(users_choice):
+            transaction_successful = cash.make_payment(users_choice.cost)
+            machine.make_coffee(users_choice)
